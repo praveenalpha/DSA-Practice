@@ -1,0 +1,14 @@
+class Solution {
+public:
+    int count_ways(int n, vector<int>& dp){
+        if(n < 0)   return 0;
+        if(dp[n] != -1) return dp[n];
+        if(n == 0)  return dp[n] = 1;
+        return dp[n] = count_ways(n-1, dp) + count_ways(n-2, dp);
+    }
+    int climbStairs(int n) {
+        int ans = 0;
+        vector<int> dp(n+1, -1);
+        return count_ways(n, dp);
+    }
+};
