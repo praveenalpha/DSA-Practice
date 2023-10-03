@@ -1,0 +1,37 @@
+class Solution {
+public:
+    vector<vector<pair<int, double>> > create_graph(vector<vector<int>>& edges, vector<double>& succProb, int n){
+        vector<vector<pair<int, double>> > ans(n);
+        int i=0;
+        for(vector<int> edge : edges){
+            int u = edge[0], v = edge[1];
+            ans[u].push_back({v, succProb[i]});
+            ans[v].push_back({u, succProb[i]});
+            i++;
+        }
+        return ans;
+    }
+    double maxProbability(int n, vector<vector<int>>& edges, vector<double>& succProb, int start_node, int end_node) {
+        vector<double> ans(n, 0.0);
+        ans[start_node] = 1;
+        priority_queue<pair<double, int>> pq;
+        pq.push({1, start_node});
+        vector<vector<pair<int , double>> > grp = create_graph(edges, succProb, n);
+        
+        while(pq.size()>0){
+            int node = pq.top().second;
+            double dist = pq.top().first;
+            pq.pop();
+            if(node == end_node)    return dist;
+            for(auto nbr : grp[node]){
+                double edge_weight = nbr.second;
+                int edge_node = nbr.first;
+                if(dist * edge_weight > ans[edge_node]){
+                    ans[edge_node] = dist*edge_weight;
+                    pq.push({dist*edge_weight, edge_node});
+                }
+            }
+        }
+        return ans[end_node] == INT_MAX ? 0 : ans[end_node];
+    }
+};
