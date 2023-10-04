@@ -1,0 +1,44 @@
+class Solution {
+public:
+    vector<vector<pair<int, int>> > create_graph(vector<vector<int>>& times, int n){
+        vector<vector<pair<int, int>>> ans(n+1);
+        for(auto edge : times){
+            int u = edge[0];
+            int v = edge[1];
+            int wt = edge[2];
+            ans[u].push_back({v, wt});
+        }
+        return ans;
+    }
+    int networkDelayTime(vector<vector<int>>& times, int n, int k) {
+        vector<int> ans(n+1, INT_MAX);
+        vector<vector<pair<int, int>> > grp = create_graph(times, n);
+        priority_queue<pair<int, int>, vector<pair<int, int>>, greater<pair<int, int>> > pq;
+        vector<bool> vis(n+1, false);
+
+        int res = 0, count = 0;
+        pq.push({0, k});
+        ans[k] = 0;
+        while(pq.size()>0){
+            int dist = pq.top().first;
+            int node = pq.top().second;
+            res = max(dist, res);
+            if(vis[node] == false){
+                vis[node] = true;
+                count++;
+            }
+            if(count == n)  return res;
+            pq.pop();
+            for(pair<int, int> nbr : grp[node]){
+                int edge_weight = nbr.second;
+                int edge_node = nbr.first;
+                if(edge_weight + dist < ans[edge_node]){
+                    ans[edge_node] = dist + edge_weight;
+                    pq.push({dist+edge_weight, edge_node});
+                }
+            }
+        }
+        for(int i=1;i<=n;i++)   if(vis[i] == false) return -1;
+        return res;
+    }
+};
