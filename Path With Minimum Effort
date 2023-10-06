@@ -1,0 +1,27 @@
+class Solution {
+public:
+    vector<vector<int>> dir = {{0, 1}, {1, 0}, {0, -1}, {-1, 0}};
+    int minimumEffortPath(vector<vector<int>>& heights) {
+        priority_queue<vector<int>, vector<vector<int>>, greater<vector<int>> > pq;
+        pq.push({0, 0, 0});
+        int n1 = heights.size(), n2 = heights[0].size();
+        vector<vector<int>> ans(n1, vector<int> (n2, INT_MAX));
+        ans[0][0] = 0;
+        
+        while(pq.size() > 0){
+            int i = pq.top()[1], j = pq.top()[2];
+            pq.pop();
+            for(int mov = 0; mov < 4; mov++){
+                int row = i + dir[mov][0], col = j + dir[mov][1];
+                if(row < n1 && row >= 0 && col < n2 && col >= 0){
+                    if(ans[row][col] > max(ans[i][j], abs(heights[i][j] - heights[row][col]))){
+                        pq.push({max(ans[i][j], abs(heights[i][j] - heights[row][col])), row, col});
+                        ans[row][col] = max(ans[i][j], abs(heights[i][j] - heights[row][col]));
+                    }
+                }
+            }
+        }
+
+        return ans[n1-1][n2-1];
+    }
+};
