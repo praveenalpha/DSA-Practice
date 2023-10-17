@@ -1,0 +1,34 @@
+class Solution {
+public:
+    vector<vector<int>> create_grp(vector<vector<int>>& arr, int n){
+        vector<vector<int>> ans(n);
+        for(vector<int> edge : arr) ans[edge[0]].push_back(edge[1]);
+        return ans;
+    }
+    vector<int> find_indegree(vector<vector<int>>& grp, int n){
+        vector<int> ans(n, 0);
+        for(vector<int> edge : grp){
+            int u = edge[0], v = edge[1];
+            ans[v]++;
+        }
+        return ans;
+    }
+    bool canFinish(int n, vector<vector<int>>& prerequisites) {
+        vector<vector<int>> grp = create_grp(prerequisites, n);
+        vector<int> in_degree = find_indegree(prerequisites, n);
+        queue<int> q;
+        int count = 0;
+        for(int i=0;i<n;i++)    if(in_degree[i] == 0)   q.push(i);
+        while(q.size() > 0){
+            int rnode = q.front();
+            q.pop();
+            count++;
+            for(int nbr : grp[rnode]){
+                in_degree[nbr]--;
+                if(in_degree[nbr] == 0) q.push(nbr);
+            }
+        }
+        if(count == n)  return true;
+        return false;
+    }
+};
