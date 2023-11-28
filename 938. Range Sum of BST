@@ -1,0 +1,14 @@
+class Solution {
+public:
+    void find(TreeNode* root, int l, int r, int& sum){
+        if(root == nullptr) return;
+        if(root->val >= l && root->val <= r)    sum += root->val;
+        find(root->left, l, r, sum);
+        find(root->right, l, r, sum);
+    }
+    int rangeSumBST(TreeNode* root, int low, int high) {
+        int sum = 0;
+        find(root, low, high, sum);
+        return sum;
+    }
+};
