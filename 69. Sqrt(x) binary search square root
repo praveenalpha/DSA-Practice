@@ -1,0 +1,13 @@
+    int mySqrt(int x) {
+        long long int l = 1, u = x, ans = 1;
+        while(l <= u){
+            long long int mid = l + (u-l)/2, s = pow(mid, 2);
+            if(s == x)    return mid;
+            else if(mid*mid > x){
+                ans = mid;
+                u = mid - 1;
+            }
+            else    l = mid+1;
+        }
+        return ans-1;
+    }
