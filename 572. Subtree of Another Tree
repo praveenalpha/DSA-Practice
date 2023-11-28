@@ -1,0 +1,19 @@
+class Solution {
+public:
+    bool check(TreeNode* r1, TreeNode* r2){
+        if(r1 == nullptr && r2 == nullptr)  return true;
+        if(r1 == nullptr || r2 == nullptr)  return false;
+
+        if(r1->val == r2->val && check(r1->left, r2->left) && check(r1->right, r2->right))      return true;
+
+        return false;
+    }
+    bool isSubtree(TreeNode* root, TreeNode* subRoot) {
+        if(root == nullptr) return false;
+
+        if(root->val == subRoot->val)     if(check(root, subRoot))  return true;
+
+        if(isSubtree(root->left, subRoot))  return true;
+        return isSubtree(root->right, subRoot);
+    }
+};
