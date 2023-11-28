@@ -1,0 +1,15 @@
+class Solution {
+public:
+    int maxSubArray(vector<int>& arr) {
+        int csum = arr[0], osum = arr[0], n= arr.size();
+        for(int i=1;i<n;i++){
+            if(csum >= 0)
+                csum += arr[i];
+            else
+                csum = arr[i];
+            if(osum < csum)
+                osum = csum;
+        }
+        return osum;
+    }
+};
