@@ -1,0 +1,10 @@
+
+class Solution{
+  public:
+    int missingNumber(vector<int>& arr, int n) {
+        int sa = 0;
+        int sf = n*(n+1)/2;
+        for(int e : arr)    sa += e;
+        return sf - sa;
+    }
+};
