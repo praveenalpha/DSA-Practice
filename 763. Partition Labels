@@ -1,0 +1,20 @@
+class Solution {
+public:
+    vector<int> partitionLabels(string& s) {
+        int n = s.length();
+        vector<int> freq(26, 0);
+        vector<int> ans;
+        for(int i=0;i<n;i++)    freq[s[i]-'a'] = i;
+
+        int prev_partition = -1, max_spread = 0;
+        for(int i=0;i<n;i++){
+            max_spread = max(max_spread, freq[s[i]-'a']);
+            if(max_spread == i){
+                ans.push_back(i - prev_partition);
+                prev_partition = i;
+            }
+        }
+
+        return ans;
+    }
+};
