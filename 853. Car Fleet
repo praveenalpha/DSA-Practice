@@ -1,0 +1,22 @@
+class Solution {
+public:
+    int carFleet(int target, vector<int>& position, vector<int>& speed) {
+        int n=speed.size();
+        vector<pair<int, int>> arr;
+        for(int i=0;i<n;i++){
+            arr.push_back({position[i], speed[i]});
+        }
+        sort(arr.begin(), arr.end());
+        vector<float> time;
+        for(int i=0;i<n;i++){
+            float t = float(target - arr[i].first) / float(arr[i].second);
+            time.push_back(t);
+        }
+        int fleet = 1;
+        for(int i=n-2;i>=0;i--){
+            if(time[i] <= time[i+1])   time[i] = time[i+1];
+            else fleet++;
+        }
+        return fleet;
+    }
+};
