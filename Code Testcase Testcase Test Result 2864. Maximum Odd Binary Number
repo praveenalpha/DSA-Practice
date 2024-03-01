@@ -1,0 +1,15 @@
+class Solution {
+public:
+    string maximumOddBinaryNumber(string& s) {
+        int count = 0, n = s.length(), i=0;
+        for(char ch : s)    if(ch == '1')   count++;
+        while(count > 1){
+            s[i] = '1';
+            count--;
+            i++;
+        }
+        for(i;i<n-1;i++)    s[i] = '0';
+        s[n-1]  = '1';
+        return s;
+    }
+};
