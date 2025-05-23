@@ -1,0 +1,49 @@
+// Recurssive
+int jump_(vector<int>& nums, int v_idx){
+      if(v_idx == nums.size()-1)    return 0;
+      int min_jump = nums.size();
+      for(int jump = 1; jump <= nums[v_idx] ; jump++){
+          int nxt_pos = v_idx + jump;
+          if(nxt_pos < nums.size())
+              min_jump = min(min_jump, 1 + jump_(nums, nxt_pos));
+      }  
+      return min_jump;
+  }
+  int jump(vector<int>& nums) {
+      return jump_(nums, 0);
+  }
+
+
+// Memoized
+int jump_(vector<int>& nums, int v_idx, vector<int>& dp){
+      if(v_idx == nums.size()-1)    return dp[v_idx] = 0;
+      if(dp[v_idx] != -1) return dp[v_idx];
+      int min_jump = nums.size();
+      for(int jump = 1; jump <= nums[v_idx] ; jump++){
+          int nxt_pos = v_idx + jump;
+          if(nxt_pos < nums.size())
+              min_jump = min(min_jump, 1 + jump_(nums, nxt_pos, dp));
+      }  
+      return dp[v_idx] = min_jump;
+  }
+  int jump(vector<int>& nums) {
+      vector<int> dp(nums.size()+1, -1);
+      return jump_(nums, 0, dp);
+  }
+
+
+// Greedy Max Reach
+int jump(vector<int>& nums) {
+    int step = 0, max_reach = 0, ans = 0;
+    for(int i=0;i<nums.size();i++){
+        if(i == nums.size() -1)  
+            return ans;
+        max_reach = max(max_reach, nums[i] + i);
+        if(step == 0){
+            step = max_reach - i;
+            ans++;
+        }
+        step--;
+    }
+    return ans;
+}
