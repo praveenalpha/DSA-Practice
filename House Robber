@@ -1,0 +1,17 @@
+// Memoized
+
+int rob_(vector<int>& arr, int v_idx, vector<int>& dp){
+      if(v_idx > arr.size())  return 0;
+      if(v_idx == arr.size())  return dp[v_idx] = 0;
+      if(dp[v_idx] != -1) return dp[v_idx];
+      int max_profit = 0;
+      // rob
+      max_profit += rob_(arr, v_idx + 2, dp) + arr[v_idx];
+      //don't rob
+      max_profit = max(max_profit, rob_(arr, v_idx+1, dp));
+      return dp[v_idx] = max_profit;
+  }
+  int rob(vector<int>& nums) {
+      vector<int> dp(nums.size()+1, -1);
+      return rob_(nums, 0, dp);
+  }
