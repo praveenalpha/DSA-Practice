@@ -1,0 +1,15 @@
+class Solution {
+  public:
+    int ks01(int W, vector<int>& val, vector<int>& wt, int idx, vector<vector<int>>& dp){
+        if(idx == val.size() || W == 0)   return dp[idx][W] = 0;
+        if(dp[idx][W] != -1)    return dp[idx][W];
+        int ans = 0;
+        if(W - wt[idx] >= 0)    ans = ks01(W-wt[idx], val, wt, idx+1, dp) + val[idx];
+        return dp[idx][W] = max(ans, ks01(W, val, wt, idx+1, dp));
+    }
+    int knapsack(int W, vector<int> &val, vector<int> &wt) {
+        int n = val.size();
+        vector<vector<int>> dp(n+1, vector<int> (W+1, -1));
+        return ks01(W, val, wt, 0, dp);
+    }
+};
