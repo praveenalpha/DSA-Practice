@@ -1,0 +1,23 @@
+class Solution {
+    // Don't use vector<int> since int takes 4 byte and bool takes 1 bit
+    // vector<int> v1(1000);   // ~4000 bytes
+    // vector<bool> v2(1000);  // ~125 bytes (plus overhead)
+    // use vector<bool> dp() and vector<bool> visited();
+  public:
+    int ie(vector<int>& arr, int sum, int idx, vector<vector<int>>& dp){
+        if(sum == 0)   return dp[idx][sum] = 1;
+        if(idx == arr.size())   return dp[idx][sum] = 0;
+        if(dp[idx][sum] != -1)  return dp[idx][sum];
+
+        int ans = 0;
+        if(sum >= arr[idx])  ans = ie(arr, sum-arr[idx], idx+1, dp);
+        return dp[idx][sum] = ans || ie(arr, sum, idx+1, dp);
+        
+    }
+    bool isSubsetSum(vector<int>& arr, int sum) {
+        int n = arr.size();
+        vector<vector<int>> dp(n+1, vector<int> (sum+1, -1));
+        return ie(arr, sum, 0, dp) == 1 ? true: false;
+        
+    }
+};
