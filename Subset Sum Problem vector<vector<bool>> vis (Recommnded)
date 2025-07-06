@@ -1,0 +1,18 @@
+class Solution {
+  public:
+    bool ie(vector<int>& arr, int sum, int idx, vector<vector<bool>>& dp, vector<vector<bool>>& vis){
+        if(sum == 0)    return dp[idx][sum] = true;
+        if(idx == arr.size())   return dp[idx][sum] = false;
+        if(vis[idx][sum] == true)   return dp[idx][sum];
+        vis[idx][sum] = true;
+        bool ans = false;
+        if(sum >= arr[idx]) ans = ie(arr, sum-arr[idx], idx+1, dp, vis);
+        return ans || ie(arr, sum, idx+1, dp, vis);
+    }
+    bool isSubsetSum(vector<int>& arr, int sum) {
+        int n = arr.size();
+        vector<vector<bool>> vis(n+1, vector<bool> (sum+1, false));
+        vector<vector<bool>> dp(n+1, vector<bool> (sum+1,false));
+        return ie(arr, sum , 0, dp, vis);
+    }
+};
