@@ -1,5 +1,5 @@
 int subset_sum(vector<int>& arr, int idx, int target, vector<vector<int>>& dp){
-    if (idx == arr.size()) return target == 0 ? 1 : 0;
+    if (idx == arr.size()) return target == 0 ? 1 : 0; // This Base Case Is Imp
 
     if (dp[idx][target] != -1) return dp[idx][target];
 
