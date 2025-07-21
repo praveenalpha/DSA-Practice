@@ -1,0 +1,28 @@
+class Solution {
+  public:
+    int subset_sum(vector<int>& arr, int idx, int target, vector<vector<int>>& dp){
+        if (idx == arr.size()) return target == 0 ? 1 : 0;
+    
+        if (dp[idx][target] != -1) return dp[idx][target];
+    
+        int ans = 0;
+        if (target - arr[idx] >= 0)
+            ans += subset_sum(arr, idx + 1, target - arr[idx], dp);
+    
+        ans += subset_sum(arr, idx + 1, target, dp);
+    
+        return dp[idx][target] = ans;
+    }
+    int countPartitions(vector<int>& arr, int d) {
+        // s1 - s2 = d
+        // s1 + s2 = sum
+        // 2s1 = d + sum
+        // s1 = (d + sum) / 2
+        int sum = accumulate(arr.begin(), arr.end(), 0), n = arr.size();
+        int target = (d + sum ) / 2;
+        if ((d + sum) % 2 != 0 || d > sum) return 0; // Do Not Forget This Edge Case
+        
+        vector<vector<int>> dp(n+1, vector<int> (target+1, -1));
+        return subset_sum(arr, 0, target, dp);
+    }
+};
