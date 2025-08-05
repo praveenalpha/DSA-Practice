@@ -1,0 +1,16 @@
+// Tabulation 1D dp
+    int knapSack(vector<int>& val, vector<int>& wt, int cap) {
+        int n = val.size();
+        vector<int> dp(cap+1, 0);
+        vector<int> prev = dp;
+        
+        for(int i=1;i<=n;i++){
+            for(int j=1;j<=cap;j++){
+                if(j-wt[i-1] >= 0)
+                    dp[j] = val[i-1] + dp[j-wt[i-1]];
+                dp[j] = max(dp[j], prev[j]);
+            }
+            prev = dp;
+        }
+        return dp[cap];
+    }
