@@ -1,0 +1,15 @@
+// Memoized 2D dp solve
+    int ubk(vector<int>& val, vector<int>& wt, int cap, int idx, vector<vector<int>>& dp){
+        if(cap == 0 || idx == val.size())   return dp[idx][cap] = 0;
+        
+        if(dp[idx][cap] != -1)  return dp[idx][cap];
+        int ans = 0;
+        if(cap-wt[idx] >= 0)    ans = ubk(val, wt, cap-wt[idx], idx, dp) + val[idx];
+        ans = max(ans, ubk(val, wt, cap, idx+1, dp));
+        return dp[idx][cap] = ans;
+    }
+    int knapSack(vector<int>& val, vector<int>& wt, int cap) {
+        int n = val.size();
+        vector<vector<int>> dp(n+1, vector<int> (cap+1, -1));
+        return ubk(val, wt, cap, 0, dp);
+    }
