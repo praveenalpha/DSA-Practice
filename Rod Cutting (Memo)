@@ -1,0 +1,21 @@
+  int ubks(int n, vector<int>& price, int idx, vector<vector<int>>& dp){
+        if(idx == price.size() || n == 0)   return dp[n][idx] = 0;
+        if(dp[n][idx] != -1)    return dp[n][idx];
+        int ans = 0;
+        if(n-(idx+1) >= 0)  ans = ubks(n-(idx+1), price, idx, dp)+price[idx];
+        ans = max(ans, ubks(n, price, idx+1, dp));
+        return dp[n][idx] = ans;
+    }
+    int cutRod(vector<int> &price) {
+        int n = price.size();
+        vector<vector<int>> dp(n+1, vector<int> (n+1, 0));
+        for(int i=1;i<=n;i++){
+            for(int j=1;j<=n;j++){
+                if(j - i >= 0){
+                    dp[i][j] = price[i-1] + dp[i][j-i];
+                }
+                dp[i][j] = max(dp[i][j], dp[i-1][j]);
+            }
+        }
+        return dp[n][n];
+    }
